@@ -1,22 +1,35 @@
-<?php
-include_once '/var/www/html/libraries/afterlogic/api.php';
+<?php 
+include_once '/var/www/html/system/autoload.php';
+\Aurora\System\Api::Init(true);
 
-if (CApi::IsValid())
+$oSettings = \Aurora\System\Api::GetSettings();
+if ($oSettings)
 {
-  $settings = & CApi::GetSettings();
-  if ($settings)
-  {
-    $settings->SetConf('Common/DBHost', 'localhost');
-    $settings->SetConf('Common/DBName', 'afterlogic');
-    $settings->SetConf('Common/DBLogin', 'root');
-    $settings->SetConf('Common/DBPassword', 'webbundle');
+	$fgc = get_data("https://afterlogic.com/get-trial-key?productId=afterlogic-webmail-pro-8&format=json");
+	$oResponse = json_decode($fgc);
+	if (isset($oResponse->success) && $oResponse->success && isset($oResponse->key) && $oResponse->key !== '')
+	{
+		$oSettings->LicenseKey = $oResponse->key;
+	}
 
-    CDbCreator::ClearStatic();
-    CDbCreator::CreateConnector($settings);
-
-    $oApiDbManager = CApi::Manager('db');
-    $oApiDbManager->SyncTables();
-
-    $settings->SaveToXml();
-  }
+	$oSettings->SetConf('DBHost', 'localhost');
+	$oSettings->SetConf('DBName', 'afterlogic');
+	$oSettings->SetConf('DBLogin', 'rootuser');
+	$oSettings->SetConf('DBPassword', 'dockerbundle');
+	$result = $oSettings->Save();
+	
+	\Aurora\System\Api::GetModuleDecorator('Core')->CreateTables();
+	\Aurora\System\Api::GetModuleManager()->SyncModulesConfigs();
 }
+
+function get_data($url)
+{
+	$ch = curl_init();
+	$timeout = 20;
+	curl_setopt($ch,CURLOPT_URL,$url);
+	curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+	$data = curl_exec($ch);
+	curl_close($ch);
+	return $data;
+} 
