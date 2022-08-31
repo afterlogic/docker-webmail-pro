@@ -1,48 +1,53 @@
 afterlogic/docker-webmail-pro
 =============================
 
-Out-of-the-box [Afterlogic WebMail Pro](https://afterlogic.com/webmail-client) image
+[Afterlogic WebMail Pro](https://afterlogic.com/webmail-client) image for Docker using Nginx, PHP-FPM 8.1, MySQL on Alpine Linux. Loosely based on [khromov/alpine-nginx-php8 package](https://github.com/khromov/alpine-nginx-php8).
 
-Includes Apache, MySQL and PHP setup based on [fauria/docker-lamp package](https://github.com/fauria/docker-lamp). Contains improvements [offered for Aurora Files](https://github.com/extbe)
+Getting the image
+-----------------
 
-
-Creating the image
-------------------
-
-	docker build -t afterlogic/docker-webmail-pro .
+* Option 1 - from GitHub - recommended:
 
 
-Running docker image
+```
+git clone https://github.com/afterlogic/docker-webmail-pro .
+docker compose up
+```
+
+* Option 2 - from DockerHub:
+	
+```
+curl https://raw.githubusercontent.com/afterlogic/docker-webmail-pro/master/docker-hub-compose.yml --output docker-compose.yml
+docker compose up
+```
+
+Running Docker image
 --------------------
 
-Start your image binding the external port 80:
+Whether you get the image from DockerHub directly, or build it from GitHub repository, `docker compose up` will run the image, starting Nginx, PHP and MySQL. 
 
-	docker run -d -p 80:80 afterlogic/docker-webmail-pro
+In case of GitHub repository, the latest version of WebMail Pro is downloaded from the website. DockerHub image is not guaranteed to contain the latest version of the product.
 
-and access the container via web browser at http://localhost/
+The installation will be available at http://localhost/ - if you wish to use another port instead of default 80, adjust `docker-compose.yml` file and edit the following section:
 
+```
+    ports:
+      - "80:80"
+```
 
-Alternately, you can use any other port available, e.g. 800:
-
-	docker run -d -p 800:80 afterlogic/docker-webmail-pro
-
-and access the installation at http://localhost:800/
-
+Supplying "800:80" will make sure port 800 is used, and the installation will be available at http://localhost:800
 
 Accessing admin interface
 ------------------------------
 
 To configure WebMail Pro installation, log into admin interface using main installation URL and `/adminpanel` path.
 
-Default credentials are **superadmin** login and empty password.
+Default credentials are **superadmin** login and empty password. 
 
-Overriding configuration
-------------------------------
+**NB:** Be sure to press "Create/Update Tables" button in "Database settings" screen of admin interface.
 
-To override WebMail Pro configuration, put config files with overrides into `data/settings/` or 
-`data/settings/modules/`. The file names must be the same as the ones you want to override.
 
 Licensing Terms & Conditions
 ----------------------------
 
-Content of this repository is available in terms of [AGPLv3 license](http://www.gnu.org/licenses/agpl-3.0.en.html) (see `LICENSE` file)
+Content of this repository is available in terms of The MIT License (see `LICENSE` file)
