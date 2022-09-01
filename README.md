@@ -8,7 +8,6 @@ Getting the image
 
 * Option 1 - from GitHub - recommended:
 
-
 ```
 git clone https://github.com/afterlogic/docker-webmail-pro .
 docker compose up
@@ -46,8 +45,7 @@ Default credentials are **superadmin** login and empty password.
 
 **NB:** Be sure to press "Create/Update Tables" button in "Database settings" screen of admin interface.
 
-
 Licensing Terms & Conditions
 ----------------------------
 
-Content of this repository is available in terms of The MIT License (see `LICENSE` file)
+Content of this repository is available in terms of The MIT License (see `LICENSE.txt` file)
