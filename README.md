@@ -3,6 +3,8 @@ afterlogic/docker-webmail-pro
 
 [Afterlogic WebMail Pro](https://afterlogic.com/webmail-client) image for Docker using Nginx, PHP-FPM 8.1, MySQL on Alpine Linux. Loosely based on [khromov/alpine-nginx-php8 package](https://github.com/khromov/alpine-nginx-php8).
 
+If you require a legacy image that uses Ubuntu and Apache, you can find it at: [afterlogic/docker-webmail-pro-legacy](https://hub.docker.com/repository/docker/afterlogic/docker-webmail-pro-legacy)
+
 Getting the image
 -----------------
 
